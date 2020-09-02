@@ -44,6 +44,25 @@
                 </ul><!-- collapse finish -->
                 
             </li><!-- li finish -->
+
+            <li><!-- li begin -->
+                <a href="#" data-toggle="collapse" data-target="#presupuesto"><!-- a href begin -->
+                        
+                        <i class="fa fa-fw fa-tag"></i> Presupuestos
+                        <i class="fa fa-fw fa-caret-down"></i>
+                        
+                </a><!-- a href finish -->
+                
+                <ul id="presupuesto" class="collapse"><!-- collapse begin -->
+                    <li><!-- li begin -->
+                        <a href="index.php?insert_presupuesto"> Insertar Presupuesto </a>
+                    </li><!-- li finish -->
+                    <li><!-- li begin -->
+                        <a href="index.php?view_presupuestos"> Ver Presupuestos </a>
+                    </li><!-- li finish -->
+                </ul><!-- collapse finish -->
+                
+            </li><!-- li finish -->
             
             <li><!-- li begin -->
                 <a href="logout.php"><!-- a href begin -->

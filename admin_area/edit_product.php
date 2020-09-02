@@ -119,11 +119,11 @@
 
                               <option disabled value="Select Manufacturer">Seleccionar desarrolladora</option>
                               
-                              <option selected value="<?php echo $manufacturer_id; ?>"> <?php echo $manufacturer_title; ?> </option>
+                              <option value="<?php echo $manufacturer_id; ?>"> <?php echo $manufacturer_title; ?> </option>
                               
                               <?php 
                               
-                              $get_manufacturer = "select * from manufacturers";
+                              $get_manufacturer = "select * from desarrolladoras where manufacturer_id<>$manufacturer_id";
                               $run_manufacturer = mysqli_query($con,$get_manufacturer);
                               
                               while ($row_manufacturer=mysqli_fetch_array($run_manufacturer)){
@@ -161,7 +161,7 @@
                               
                               <?php 
                               
-                              $get_p_cats = "select * from categorias";
+                              $get_p_cats = "select * from categorias where p_cat_id<>$p_cat";
                               $run_p_cats = mysqli_query($con,$get_p_cats);
                               
                               while ($row_p_cats=mysqli_fetch_array($run_p_cats)){
@@ -199,7 +199,7 @@
                               
                               <?php 
                               
-                              $get_cat = "select * from plataformas";
+                              $get_cat = "select * from plataformas where cat_id<>$cat";
                               $run_cat = mysqli_query($con,$get_cat);
                               
                               while ($row_cat=mysqli_fetch_array($run_cat)){
@@ -335,6 +335,7 @@
    
     <script src="js/tinymce/tinymce.min.js"></script>
     <script>tinymce.init({ selector:'textarea'});</script>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
 </body>
 </html>
 
@@ -351,10 +352,8 @@ if(isset($_POST['update'])){
     $product_keywords = $_POST['product_keywords'];
     $product_desc = $_POST['product_desc'];
 
-    if(is_uploaded_file($_FILES['file']['tmp_name'])){
+    if (!file_exists($_FILES['file']['tmp_name']) || !is_uploaded_file($_FILES['file']['tmp_name'])){ 
 
-            // work for upload / update image
-        
         $product_img1 = $_FILES['product_img1']['name'];
         $product_img2 = $_FILES['product_img2']['name'];
         $product_img3 = $_FILES['product_img3']['name'];
@@ -367,7 +366,7 @@ if(isset($_POST['update'])){
         move_uploaded_file($temp_name2,"product_images/$product_img2");
         move_uploaded_file($temp_name3,"product_images/$product_img3");
         
-        $update_product = "update productos set p_cat_id='$product_cat',cat_id='$cat',manufacturer_id='$manufacturer_id',date=NOW(),product_title='$product_title',product_img1='$product_img1',product_img2='$product_img2',product_img3='$product_img3',product_keywords='$product_keywords',product_desc='$product_desc',product_price='$product_price' where product_id='$p_id'";
+        $update_product = "update productos SET p_cat_id='$product_cat',cat_id='$cat',manufacturer_id='$manufacturer_id',date=NOW(),product_title='$product_title',product_img1='$product_img1',product_img2='$product_img2',product_img3='$product_img3',product_keywords='$product_keywords',product_desc='$product_desc',product_price='$product_price' where product_id='$p_id'";
         
         $run_product = mysqli_query($con,$update_product);
         
@@ -381,24 +380,25 @@ if(isset($_POST['update'])){
         
     }else{
 
-        // work when no update image
+        // sin actualizar imagen
         
-        $update_product = "update productos set p_cat_id='$product_cat',cat_id='$cat',manufacturer_id='$manufacturer_id',date=NOW(),product_title='$product_title',product_keywords='$product_keywords',product_desc='$product_desc',product_price='$product_price' where product_id='$p_id'";
+        $update_product = "update productos SET p_cat_id='$product_cat',cat_id='$cat',manufacturer_id='$manufacturer_id',date=NOW(),product_title='$product_title',product_keywords='$product_keywords',product_desc='$product_desc',product_price='$product_price' where product_id='$p_id'";
         
         $run_product = mysqli_query($con,$update_product);
         
         if($run_product){
             
-        echo "<script>alert('Tu producto fue actualizado correctamente')</script>"; 
+        echo "<script>alert('Tu producto fue actualizado correctamente pero sin cambio de imagen')</script>"; 
             
         echo "<script>window.open('index.php?view_products','_self')</script>"; 
-            
+
+        echo "Unrecognized error code: ".$HTTP_POST_FILES['file']['error'];
+      
         }
     }
     
 }
 
 ?>
-
 
 <?php } ?>

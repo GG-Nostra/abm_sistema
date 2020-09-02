@@ -92,7 +92,15 @@
                         include("edit_product.php");
                         
                 }
-        
+                    if(isset($_GET['insert_presupuesto'])){
+                        
+                        include("insert_presupuesto.php");
+                    
+                }  if(isset($_GET['view_presupuestos'])){
+                        
+                    include("view_presupuestos.php");
+                
+                }
                 ?>
                 
             </div><!-- container-fluid finish -->
